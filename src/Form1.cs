@@ -90,7 +90,7 @@ namespace BottomMost
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            this.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace BottomMost
 
         private void StopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.timer1.Stop();
+            this.TimerStop();
         }
 
         // ここから作成したメソッド
@@ -132,7 +132,7 @@ namespace BottomMost
                 if (p.MainWindowTitle.Length != 0)
                 {
                     // ウィンドウをリストボックスに追加する
-                    this.listBox1.Items.Add(p.MainWindowTitle);
+                    this.listBox1.Items.Add(p.MainWindowTitle+"："+p.ProcessName);
 
                     // プロセスリストにも追加
                     this.processList.Add((IntPtr)p.MainWindowHandle);
@@ -170,9 +170,10 @@ namespace BottomMost
                 {
                     SetWindowPos(this.holdWindow, HWND_BOTTOM, wRect.x, wRect.y, wRect.width, wRect.height, SWP_NOACTIVATE);
                 }
+                SetWindowPos(this.holdWindow, HWND_BOTTOM, wRect.x, wRect.y, wRect.width, wRect.height, SWP_NOACTIVATE);
 
             }
-            textBox1.Text = wRect.x.ToString() + "," + wRect.y.ToString() + "," + wRect.width.ToString() + "," + wRect.height.ToString();
+            //textBox1.Text = wRect.x.ToString() + "," + wRect.y.ToString() + "," + wRect.width.ToString() + "," + wRect.height.ToString();
 
             // 保存情報の登録
             preWindowRect = wRect;
@@ -199,6 +200,30 @@ namespace BottomMost
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
         }
-        
+
+        private void TimerStop()
+        {
+            this.timer1.Stop();
+        }
+
+        private void UpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.UpdateWindow();
+        }
+
+        private void StopMenuItem_Click(object sender, EventArgs e)
+        {
+            this.TimerStop();
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void HoldMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Start();
+        }
     }
 }
